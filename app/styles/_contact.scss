@@ -1,6 +1,7 @@
 .contact-one {
   padding: 5.96% 0;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -38,7 +39,6 @@
     align-items: center;
     i {
       font-size: 56px;
-      color: $black;
       margin-right: 8px;
     }
   }
@@ -47,9 +47,15 @@
     margin: 24px 0;
   }
 
+  &__phone {
+    width: 260px;
+  }
+
   &__link {
     @extend .text-bold;
+    color: $black;
     transition: all 0.3s ease;
+    width: 238px;
   }
 
   &__social-link {
@@ -68,19 +74,16 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    color: $black;
 
     &:hover {
       background-color: $primary;
+      color: $white;
     }
 
     i {
       font-size: 45px;
-      color: $black;
       vertical-align: middle;
-
-      &:hover {
-        color: $white;
-      }
     }
 
     &:nth-child(2) {
@@ -98,7 +101,7 @@
 
 .section-application {
   padding: 100px 0;
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -171,8 +174,14 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: $secondary;
+      background-color: pink;
       color: $gray;
+    }
+
+    &:disabled {
+      background-color: $gray;
+      opacity: 0.7;
+      color: $white;
     }
   }
 
@@ -234,24 +243,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    i {
-      font-size: 34px;
-      color: $black;
-
-      &:hover {
-        color: $white;
-      }
-    }
+    font-size: 34px;
+    color: $black;
 
     &:hover {
       background-color: $primary;
+      color: $white;
     }
   }
   &__behance,
   &__dribble,
-  &__twitter,
-  i {
+  &__twitter {
     transition: all 0.3s ease;
   }
 }
@@ -268,6 +270,14 @@
 
     &__img-wrap {
       padding-top: 50px;
+    }
+
+    &__phone {
+      width: 226px;
+    }
+
+    &__link {
+      width: 208px;
     }
   }
 
@@ -311,6 +321,16 @@
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width: 480px) {
+  .contact-one {
+    &__phone {
+      width: 201px;
+    }
+
+    &__link {
+      width: 186px;
+    }
+  }
+
   .section-application {
     .title-h2 {
       font-size: 40px;

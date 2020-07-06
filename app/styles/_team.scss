@@ -1,6 +1,7 @@
 .team-one {
   padding: 100px 0;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -65,12 +66,15 @@
       }
       i {
         font-size: 40px;
-        margin: 0 12px 0 0;
-        &:last-child {
-          margin: 0;
-          margin-right: 10px;
-        }
       }
+    }
+  }
+
+  &__social-link {
+    margin: 0 12px 0 0;
+    &:last-child {
+      margin: 0;
+      margin-right: 10px;
     }
   }
 
@@ -92,7 +96,7 @@
 
 .team-two {
   padding: 100px 0;
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -173,9 +177,16 @@
 
   .slick-arrow {
     position: absolute;
-  }
-  .slick-arrow i {
+    width: 80px;
+    height: 80px;
     font-size: 80px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: $primary;
+    }
   }
 
   .slick-prev {
