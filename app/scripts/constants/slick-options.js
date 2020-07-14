@@ -35,9 +35,9 @@ const slickOptions = {
     arrows: true,
     infinite: true,
     prevArrow:
-      "<button class='slick-prev'><i class='icon-chevron-back'></i></button>",
+      '<button class=\'slick-prev\'><i class=\'icon-chevron-back\'></i></button>',
     nextArrow:
-      "<button class='slick-next'><i class='icon-chevron-forward'></i></button>",
+      '<button class=\'slick-next\'><i class=\'icon-chevron-forward\'></i></button>',
     slidesToShow: 3,
     slidesToScroll: 3,
     responsive: [

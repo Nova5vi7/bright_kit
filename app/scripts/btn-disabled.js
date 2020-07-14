@@ -1,9 +1,9 @@
 function btnDisabled(elem, btn) {
-  elem.addEventListener("change", (event) => {
+  elem.addEventListener('change', (event) => {
     if (event.target.checked) {
-      btn.removeAttribute("disabled");
+      btn.removeAttribute('disabled');
     } else {
-      btn.setAttribute("disabled", true);
+      btn.setAttribute('disabled', true);
     }
   });
 }

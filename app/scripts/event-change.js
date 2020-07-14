@@ -1,9 +1,9 @@
 function eventChange(elem) {
-  elem.addEventListener("change", (event) => {
+  elem.addEventListener('change', (event) => {
     const isChecked = event.target.checked;
     const mult = event.target.value;
-    const elementsIds = event.target.getAttribute("data-for");
-    const idsArray = elementsIds.split(",").map((itm) => itm.trim());
+    const elementsIds = event.target.getAttribute('data-for');
+    const idsArray = elementsIds.split(',').map((itm) => itm.trim());
     idsArray.forEach((id) => {
       const priceElem = document.getElementById(id);
       const initValue = priceElem.innerHTML;

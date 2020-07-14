@@ -9,6 +9,7 @@ const { argv } = require("yargs");
 const browserify = require("browserify");
 const babelify = require("babelify");
 const buffer = require("vinyl-buffer");
+const cssImport = require("gulp-cssimport");
 const source = require("vinyl-source-stream");
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -21,7 +22,7 @@ const isDev = !isProd && !isTest;
 
 function styles() {
   return src("app/styles/*.scss", {
-    sourcemaps: !isProd
+    sourcemaps: !isProd,
   })
     .pipe($.plumber())
     .pipe(
@@ -29,15 +30,21 @@ function styles() {
         .sync({
           outputStyle: "expanded",
           precision: 10,
-          includePaths: [".", "node_modules"]
+          includePaths: [".", "node_modules"],
         })
         .on("error", $.sass.logError)
     )
-    .pipe($.postcss([autoprefixer()]))
+    .pipe($.if(!isProd, $.postcss([autoprefixer()])))
     .pipe(
-      dest(".tmp/styles", {
-        sourcemaps: !isProd
-      })
+      $.if(isProd, $.postcss([cssnano({ safe: true, autoprefixer: true })]))
+    )
+    .pipe(cssImport())
+    .pipe(
+      !isProd
+        ? dest(".tmp/styles", {
+            sourcemaps: !isProd,
+          })
+        : dest("dist/styles")
     )
     .pipe(server.reload({ stream: true }));
 }
@@ -46,7 +53,7 @@ function scripts() {
   const b = browserify({
     entries: "app/scripts/main.js",
     transform: babelify,
-    debug: true
+    debug: true,
   });
 
   return b
@@ -56,7 +63,8 @@ function scripts() {
     .pipe(buffer())
     .pipe($.if(!isProd, $.sourcemaps.init({ loadMaps: true })))
     .pipe($.if(!isProd, $.sourcemaps.write(".")))
-    .pipe(dest(".tmp/scripts"))
+    .pipe($.if(isProd, $.uglify({ compress: { drop_console: true } })))
+    .pipe(!isProd ? dest(".tmp/scripts") : dest("dist/scripts"))
     .pipe(server.reload({ stream: true }));
 }
 
@@ -79,10 +87,6 @@ function lintTest() {
 function html() {
   return src("app/*.html")
     .pipe($.useref({ searchPath: [".tmp", "app", "."] }))
-    .pipe($.if(/\.js$/, $.uglify({ compress: { drop_console: true } })))
-    .pipe(
-      $.if(/\.css$/, $.postcss([cssnano({ safe: true, autoprefixer: false })]))
-    )
     .pipe(
       $.if(
         /\.html$/,
@@ -94,7 +98,7 @@ function html() {
           removeComments: true,
           removeEmptyAttributes: true,
           removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true
+          removeStyleLinkTypeAttributes: true,
         })
       )
     )
@@ -115,7 +119,7 @@ function fonts() {
 
 function extras() {
   return src(["app/*", "!app/*.html"], {
-    dot: true
+    dot: true,
   }).pipe(dest("dist"));
 }
 
@@ -146,9 +150,9 @@ function startAppServer() {
     server: {
       baseDir: [".tmp", "app"],
       routes: {
-        "/node_modules": "node_modules"
-      }
-    }
+        "/node_modules": "node_modules",
+      },
+    },
   });
 
   watch(["app/*.html", "app/images/**/*", ".tmp/fonts/**/*"]).on(
@@ -170,9 +174,9 @@ function startTestServer() {
       baseDir: "test",
       routes: {
         "/scripts": ".tmp/scripts",
-        "/node_modules": "node_modules"
-      }
-    }
+        "/node_modules": "node_modules",
+      },
+    },
   });
 
   watch("test/index.html").on("change", server.reload);
@@ -187,9 +191,9 @@ function startDistServer() {
     server: {
       baseDir: "dist",
       routes: {
-        "/node_modules": "node_modules"
-      }
-    }
+        "/node_modules": "node_modules",
+      },
+    },
   });
 }
 

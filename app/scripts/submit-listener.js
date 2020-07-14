@@ -1,5 +1,5 @@
 function formSubmitListener(elem) {
-  elem.addEventListener("submit", (event) => {
+  elem.addEventListener('submit', (event) => {
     event.preventDefault();
     const targetForm = event.target;
     const name = targetForm.querySelector('[name="name"]').value;
